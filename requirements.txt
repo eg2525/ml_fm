@@ -3,3 +3,5 @@ streamlit
 xlrd
 openpyxl
 xlsxwriter
+scikit-learn
+lightgbm
