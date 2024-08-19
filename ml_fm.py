@@ -102,16 +102,13 @@ def save_to_zip(aggregated_results, zip_file_path):
 # Streamlit UI
 st.title('会計データ予測モデル')
 
-st.header('学習データのアップロード')
-training_file = st.file_uploader("学習データのCSVファイルをアップロードしてください", type='csv')
-
 st.header('本番データのアップロード')
 production_file = st.file_uploader("本番データのCSVファイルをアップロードしてください", type='csv')
 
 if st.button('予測を実行'):
-    if training_file is not None and production_file is not None:
-        # 学習データの前処理
-        training_data = pd.read_csv(training_file, encoding='cp932')
+    if production_file is not None:
+        # 事前に用意された学習データを読み込み
+        training_data = pd.read_csv('preprocessing.csv', encoding='cp932')
         X_combined, y, label_encoders, tfidf, le_y = preprocess_training_data(training_data)
 
         # 学習データとテストデータの分割
@@ -173,4 +170,4 @@ if st.button('予測を実行'):
         with open(zip_file_path, 'rb') as f:
             st.download_button('結果をダウンロード', f, file_name=zip_file_path)
     else:
-        st.warning("学習データと本番データの両方をアップロードしてください。")
+        st.warning("本番データをアップロードしてください。")
